@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="column is-one-third">
+    <h4 class="title is-4 mb-3">Join a room</h4>
+    <div class="box">
+        <input class="input is-fullwidth" type="text" id="room-name-input" placeholder="Type a room number here">
+        <button class="button is-fullwidth is-success" id="room-name-submit" onclick="window.location.href = `/chat/group/${document.getElementById('room-name-input').value}/`;">Join</button>
+    </div>
+</div>
+<div class="column is-one-third">
+    <p>This is a chatting app</p>
+</div>
+<div class="column is-one-third">
+    <h4 class="title is-4 mb-3">Direct Messaging</h4>
+    <div class="box">
+        <input class="input is-fullwidth" type="text" id="dm-name-input" placeholder="User">
+        <button class="button is-fullwidth is-success" id="dm-name-submit" onclick="window.location.href = `/chat/uu/{{ user.username }}/${document.getElementById('dm-name-input').value}`;">Join</button>
+    </div>
+</div>
+{% endblock content %}

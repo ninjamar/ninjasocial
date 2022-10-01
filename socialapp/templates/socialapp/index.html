@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% load tools %}
+{% load static %}
+
+{% block title %} Home {% endblock %}
+{% block otherstatic %}
+    <link rel="stylesheet" href="{% static 'socialapp/posts.css' %}">
+{% endblock otherstatic %}
+
+{% block content %}
+    <div class="column is-one-third">
+        <div class="box">
+        {% if user.is_authenticated %}
+            <form method="POST" action="/api/create_post">
+                <article class="media">
+                <div class="media-content">
+                    <div class="field">
+                        {% csrf_token %}
+                        <div class="field">
+                            <div class="field">
+                                {{ form.image }}
+                            </div>
+                            <div class="field">
+                                {{ form.text }}
+                            </div>
+                            <div class="control">
+                                <button class="button is-info is-fullwidth">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </article>
+            </form> 
+        {% else %}
+            <div class="content">
+                <div class="notification">
+                    <div class="card has-background-white">
+                        <div class="media-content">  
+                            <p>Please login to create posts</p>           
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        {% endif %}
+        </div>
+    </div>
+    <div class="column is-one-third">
+        <div class="box">
+            <p>Welcome to NinjaSocial</p>
+        </div>
+    </div>
+    <div class="column is-one-third">
+        <div class="box posts-scroll-wrapper">
+            {% if posts == None %}
+               <article class="media has-background-danger">
+                    <div class="media-content">
+                        <div class="content has-text-centered">
+                            <p>There are no posts</p>
+                        </div>
+                    </div>
+               </article> 
+            {% else %}
+                {% for post in posts %}
+                <div class="box">
+                    <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <span>
+                                        <strong><a href="/profile/{{ post.user.username }}" style="color: inherit;">{{ post.user.username}} {{ post.user|user_tag}}</a></strong>
+                                        <small>{{ post.date_posted|naturaltime }}</small>
+                                    </span>
+                                    <div class="_post-text">
+                                        {{ post.text|render_post_content:post.image }}
+                                    </div>
+                                    <div>
+                                        <small>
+                                        {% if post|has_user_liked_post:user.username %}
+                                            <a href="click me"
+                                                onclick="event.preventDefault();document.getElementById('form_unlike_post_{{ post.id }}').submit()">
+                                                <i class="fas fa-solid fa-heart"></i>
+                                            </a>
+                                            <span>{{ post|total_post_likes }}</span>
+                                            <form action="/api/unlike_post/{{ post.id }}" method="POST" id="form_unlike_post_{{ post.id }}">
+                                                {% csrf_token %}
+                                                <input type="hidden">
+                                            </form>
+                                        {% else %}
+                                            <a href="click me"
+                                                onclick="event.preventDefault();document.getElementById('form_like_post_{{ post.id }}').submit()">
+                                                <i class="fas fa-regular fa-heart"></i>
+                                            </a>
+                                            <span>{{ post|total_post_likes }}</span>
+                                            <form action="/api/like_post/{{ post.id }}" method="POST" id="form_like_post_{{ post.id }}">
+                                                {% csrf_token %}
+                                                <input type="hidden">
+                                            </form>
+                                        {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if post.user == user %}
+                                <div class="media-right">
+                                    <a href="click me"
+                                        onclick="event.preventDefault();document.getElementById('model_delete_post_{{ post.id }}').classList.add('is-active');">
+                                        Delete Post
+                                    </a>
+                                    <form action="/api/delete_post/{{ post.id }}" method="POST" id="form_delete_post_{{ post.id }}">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                    </form>
+                                </div>
+                                <div id="model_delete_post_{{ post.id }}" class="modal">
+                                    <div class="modal-background"></div>
+                                  
+                                    <div class="modal-content">
+                                      <div class="box">
+                                        <p>Do you want to delete this post?</p>
+                                        <button class="button is-danger" onclick="document.getElementById('form_delete_post_{{ post.id }}').submit();document.getElementById('model_delete_post_{{ post.id }}').classList.remove('is-active');">Delete</button>
+                                        <button class="button is-success" onclick="document.getElementById('model_delete_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                      </div>
+                                    </div> 
+                                  </div>
+                            {% elif user.is_authenticated %}
+                                {% if post|have_i_been_reported_by_user:user.username %}
+                                  <div class="media-right">
+                                    <span>You have reported this post</span>
+                                  </div>
+                                {% else %}
+                                <div class="media-right">
+                                    <a href="click me"
+                                        onclick="event.preventDefault();document.getElementById('model_report_post_{{ post.id }}').classList.add('is-active');">
+                                        Report Post
+                                    </a>
+                                    <form action="/api/report_post/{{ post.id }}" method="POST" id="form_report_post_{{ post.id }}">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                    </form>
+                                </div>
+                                <div id="model_report_post_{{ post.id }}" class="modal">
+                                    <div class="modal-background"></div>
+                                
+                                    <div class="modal-content">
+                                    <div class="box">
+                                        <p>Do you want to report this post?</p>
+                                        <button class="button is-danger" onclick="document.getElementById('form_report_post_{{ post.id }}').submit();document.getElementById('report_delete_post_{{ post.id }}').classList.remove('is-active');">Report</button>
+                                        <button class="button is-success" onclick="document.getElementById('model_report_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                    </div>
+                                    </div> 
+                                </div>
+                                {% endif %}  
+                            {% endif %}
+                    </article>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

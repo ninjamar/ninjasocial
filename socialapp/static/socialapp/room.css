@@ -1,0 +1,14 @@
+._message-text {
+    overflow-y: scroll;
+    max-height: 80px;
+}
+._message-text > p{
+    word-break: break-all;
+}
+.message-area-wrapper {
+    height:50vh;
+    overflow-y: auto;
+}
+html, body {
+    overflow: hidden;
+}

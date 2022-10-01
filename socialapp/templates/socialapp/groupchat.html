@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+{% block otherstatic %}
+<link rel="stylesheet" href="{% static 'socialapp/room.css' %}">
+<script>
+    const roomid = {{ roomid }};
+</script>
+<script src="{% static 'socialapp/tools.js' %}"></script>
+<script src="{% static 'socialapp/group.js' %}"></script>
+{% endblock otherstatic %}
+
+{% block content %}
+
+<div class="column is-one-third">
+    <p>You are currently in room <strong>{{ roomid }}</strong></p>
+</div>
+<div class="column is-one-third">
+    <p>All new messages will be here</p>
+    <div class="message-area-wrapper box m-0">
+        <div class="message-area" id="message-area"></div>
+    </div>
+    <div class="box">
+        <input class="input is-fullwidth" type="text" id="room-new-message-input" placeholder="Type a message here">
+        <button class="button is-fullwidth is-success" id="room-new-message-submit" onclick="handleNewMessageSubmit();">Submit</button>
+    </div>
+</div>
+<div class="column is-one-third"></div>
+<div class="modal" id="sock_closed">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box has-text-centered">
+            <p>Socket closed</p>
+            <button class="button is-success" onclick="document.getElementById('sock_closed').classList.remove('is-active');">Ok</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

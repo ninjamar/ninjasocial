@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% load tools %}
+{% load static %}
+
+{% block otherstatic %}
+    <link rel="stylesheet" href="{% static 'socialapp/posts.css' %}">
+{% endblock otherstatic %}
+
+{% block title %} Reported Posts {% endblock %}
+{% block content %}
+<div class="column is-one-third">
+    <a href="click me" onclick="event.preventDefault();prevReportPage()" style="color: inherit;">&lt;</a>
+    <a href="click me" onclick="event.preventDefault();nextReportPage()" style="color: inherit">&gt;</a>
+    <div class="box posts-scroll-wrapper">
+        {% if reports == None %}
+           <article class="media has-background-danger">
+                <div class="media-content">
+                    <div class="content has-text-centered">
+                        <p>There are no reports</p>
+                    </div>
+                </div>
+           </article> 
+        {% else %}
+            {% for post in reports %}
+                <article class="media">
+                        <div class="media-content">
+                            <div class="content">
+                                <span>
+                                    <strong><a href="/profile/{{ post.user.username }}" style="color: inherit;">{{ post.user.username}} {{ post.user|user_tag }}</a></strong>
+                                    <small>{{ post.date_posted|naturaltime }}</small>
+                                </span>
+                                <div class="_post-text">
+                                    {{ post.text|render_post_content:post.image }}
+                                </div>
+                                <div>
+                                    <p><small>
+                                        Times reported: {{ post.times_reported }}
+                                    </small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-right">
+                            {% if post.hidden %}
+                                <a href="click me"
+                                    onclick="event.preventDefault();document.getElementById('model_unhide_post_{{ post.id }}').classList.add('is-active');">
+                                    Unhide Post
+                                </a>
+                            {% else %}
+                                <a href="click me"
+                                    onclick="event.preventDefault();document.getElementById('model_hide_post_{{ post.id }}').classList.add('is-active');">
+                                    Hide Post
+                                </a>
+                            {% endif %}
+
+                            {% if post.user.is_active %}
+                                <a href="click me"
+                                    onclick="event.preventDefault();document.getElementById('model_ban_post_{{ post.id }}').classList.add('is-active');">
+                                    Ban User
+                                </a>
+                            {% else %}
+                                <a href="click me"
+                                    onclick="event.preventDefault();document.getElementById('model_unban_post_{{ post.id }}').classList.add('is-active');">
+                                    Unban User
+                                </a>
+                            {% endif %}
+
+                            {% if post.user.is_active %}
+                                <form action="/api/ban_user/{{ post.user.id }}" method="POST" id="form_ban_post_{{ post.id }}">
+                                    {% csrf_token %}
+                                    <input type="hidden">
+                                </form>
+                            {% else %}
+                                <form action="/api/unban_user/{{ post.user.id }}" method="POST" id="form_unban_post_{{ post.id }}">
+                                    {% csrf_token %}
+                                    <input type="hidden">
+                                </form>
+                            {% endif %}
+
+                            {% if post.hidden %}
+                                <form action="/api/unhide_post/{{ post.id }}" method="POST" id="form_unhide_post_{{ post.id }}">
+                                    {% csrf_token %}
+                                    <input type="hidden">
+                                </form>
+                            {% else %}
+                                <form action="/api/hide_post/{{ post.id }}" method="POST" id="form_hide_post_{{ post.id }}">
+                                    {% csrf_token %}
+                                    <input type="hidden">
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% if post.hidden %}
+                            <div id="model_unhide_post_{{ post.id }}" class="modal">
+                                <div class="modal-background"></div>
+                            
+                                <div class="modal-content">
+                                <div class="box">
+                                    <p>Do you want to unhide this post?</p>
+                                    <button class="button is-danger" onclick="document.getElementById('form_unhide_post_{{ post.id }}').submit();document.getElementById('model_unhide_post_{{ post.id }}').classList.remove('is-active');">Unhide</button>
+                                    <button class="button is-success" onclick="document.getElementById('model_unhide_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                </div>
+                                </div> 
+                            </div>
+                        {% else %}
+                            <div id="model_hide_post_{{ post.id }}" class="modal">
+                                <div class="modal-background"></div>
+                            
+                                <div class="modal-content">
+                                <div class="box">
+                                    <p>Do you want to hide this post?</p>
+                                    <button class="button is-danger" onclick="document.getElementById('form_hide_post_{{ post.id }}').submit();document.getElementById('model_hide_post_{{ post.id }}').classList.remove('is-active');">Hide</button>
+                                    <button class="button is-success" onclick="document.getElementById('model_hide_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                </div>
+                                </div> 
+                            </div>
+                        {% endif %}
+
+                        {% if post.user.is_active %}
+                            <div id="model_ban_post_{{ post.id }}" class="modal">
+                                <div class="modal-background"></div>
+                            
+                                <div class="modal-content">
+                                <div class="box">
+                                    <p>Do you want to ban this user?</p>
+                                    <button class="button is-danger" onclick="document.getElementById('form_ban_post_{{ post.id }}').submit();document.getElementById('model_ban_post_{{ post.id }}').classList.remove('is-active');">Ban</button>
+                                    <button class="button is-success" onclick="document.getElementById('model_ban_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                </div>
+                                </div> 
+                            </div>
+                        {% else %}
+                            <div id="model_unban_post_{{ post.id }}" class="modal">
+                                <div class="modal-background"></div>
+                            
+                                <div class="modal-content">
+                                <div class="box">
+                                    <p>Do you want to unblock this user?</p>
+                                    <button class="button is-danger" onclick="document.getElementById('form_unban_post_{{ post.id }}').submit();document.getElementById('model_unban_post_{{ post.id }}').classList.remove('is-active');">Unban</button>
+                                    <button class="button is-success" onclick="document.getElementById('model_unban_post_{{ post.id }}').classList.remove('is-active');">Keep</button>
+                                </div>
+                                </div> 
+                            </div>
+                        {% endif %}
+                </article>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

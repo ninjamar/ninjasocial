@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% load tools %}
+
+{% block title %} Settings {% endblock %}
+
+{% block content %}
+<div class="column is-one-third">
+    <div class="box">
+        <form method="POST" action="/api/set_about">
+            <article class="media">
+            <div class="media-content">
+                <div class="field">
+                    {% csrf_token %}
+                    <div class="field">
+                        <div class="field">
+                            {{ about_form.about }}
+                        </div>
+                        <div class="control">
+                            <button class="button is-info is-fullwidth">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </article>
+        </form>
+    </div>
+</div>
+<div class="column is-one-third">
+    <button class="button is-danger" onclick="document.getElementById('model_delete_account').classList.add('is-active');">Delete Account</button>
+    <form action="/api/nono/delete_account/" method="POST" id="form_delete_account">
+        {% csrf_token %}
+        <input type="hidden">
+    </form>
+    <div id="model_delete_account" class="modal">
+        <div class="modal-background"></div>
+      
+        <div class="modal-content">
+          <div class="box">
+            <p>Are you sure you want to delete your account (this only affects this app and doesn't affect Auth0 information)?</p>
+            <button class="button is-danger" onclick="document.getElementById('form_delete_account').submit();document.getElementById('model_delete_account').classList.remove('is-active');">Delete</button>
+            <button class="button is-success" onclick="document.getElementById('model_delete_account').classList.remove('is-active');">Keep</button>
+          </div>
+        </div> 
+      </div>
+</div>
+{% endblock content %}

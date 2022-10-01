@@ -1,0 +1,9 @@
+Django>=4.1
+python-jose>=3.3.0
+requests>=2.26.0
+social-auth-app-django>=5.0.0
+python-decouple>=3.6
+whitenoise>=6.2.0
+channels>=3.0.5
+channels-redis>=3.4.1
+uvicorn>=0.18.3

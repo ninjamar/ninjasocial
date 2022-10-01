@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width. inital-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <title>Social 2.0 {% block title %}{% endblock %}</title>
+        {% load static %}
+        <script src="{% static 'socialapp/bulma.js' %}"></script>
+        <script src="{% static 'socialapp/tools.js' %}"></script>
+        {% block otherstatic %}
+        {% endblock otherstatic %}
+        <link rel="stylesheet" href="{% static 'socialapp/lists.css' %}">
+        <script src="https://kit.fontawesome.com/a98a976041.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <section class="hero is-small is-success mb4">
+            <div class="hero-body">
+                <h1 class="title is-1">NinjaSocial</h1>
+                <p class="subtitle is-4">
+                    A tiny social network built using Django
+                </p>
+                <nav class="navbar">
+                    <div class="navbar-brand">
+                        <a role="button" class="navbar-burger" data-target="navbar-site">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <div id="navbar-site" class="navbar-menu">
+                        <div class="navbar-start">
+                            <a class="navbar-item" href="{% url 'socialapp:index' %}">
+                                Home
+                            </a>
+                            <a class="navbar-item" href="/about">
+                                About
+                            </a> 
+                            <a class="navbar-item" href="/posts">
+                                Posts
+                            </a> 
+                        {% if user.is_staff %}
+                            <a class="navbar-item" href="{% url 'admin:index' %}">
+                                Admin
+                            </a>
+                        {% endif %}
+                        {% if perms.socialapp.view_report %}
+                            <a class="navbar-item" href="{% url 'socialapp:reports' %}">
+                                Reports
+                            </a>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <a class="navbar-item" href="/settings">
+                                Settings
+                            </a>
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link">
+                                  Apps
+                                </a>
+                                <div class="navbar-dropdown has-background-success	">
+                                  <a class="navbar-item" href="/chat">
+                                    Chat
+                                  </a>
+                                </div>
+                              </div>
+                        {% endif %}
+                        <div class="navbar-item">
+                            <input class="input is-primary" type="text" placeholder="Search with user" id="input_search_user">
+                        </div>
+                        <div class="navbar-item">
+                            <input class="input is-primary" type="text" placeholder="Search with text" id="input_search_text">
+                        </div>
+                        <div class="navbar-item">
+                            <button class="button is-info" onclick="search()">Search</button>
+                        </div>
+                        </div>
+                        <div class="navbar-end">
+                            <div class="buttons">
+                                {% if user.is_authenticated %}
+                                    <a class="button is-danger" href="/logout/">
+                                        Logout
+                                    </a>
+                                {% else %}
+                                    <a class="button is-danger" href="/login/auth0">
+                                        Login
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </section>
+        <div class="container m-3">
+            <div class="columns">
+                {% block content %}
+    
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% load tools %}
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="column is-one-third"></div>
+<div class="column is-one-third">
+    <div class="box">
+        <h4 class="title is-4">About this site</h4>
+        <p>NinjaSocial is a social application created by ninjamar and built using Django and Bulma.</p>
+        <div class="list">
+            <div class="list-item">
+                <div class="list-item-content">
+                    <div class="list-item-title">
+                        <a href="https://ninjamar.dev/privacy.html" style="color:inherit;">Privacy Policy</a>
+                    </div>
+                    <div class="list-item-description">
+                        This is our privacy policy
+                    </div>
+                </div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-content">
+                    <div class="list-item-title">
+                        <a href="https://ninjamar.dev" style="color:inherit;">ninjamar.dev</a>
+                    </div>
+                    <div class="list-item-description">
+                        ninjamar's website
+                    </div>
+                </div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-content">
+                    <div class="list-item-title">
+                        <a href="https://github.com/ninjamar" style="color:inherit;">ninjamar's github</a><br>
+                    </div>
+                    
+                    <div class="list-item-description">
+                    No explanation needed
+                    </div>
+                </div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-content">
+                    <div class="list-item-title">
+                        <a href="https://github.com/ninjamar/ninjasocial" style="color:inherit;">ninjasocial's github</a><br>
+                    </div>
+                    
+                    <div class="list-item-description">
+                    No explanation needed
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="column is-one-third"></div>
+{% endblock content %}

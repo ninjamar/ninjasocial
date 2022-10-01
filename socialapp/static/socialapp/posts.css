@@ -1,0 +1,14 @@
+._post-text > p {
+    word-break: break-all;
+}
+._post-text {
+    overflow-y: scroll;
+    max-height: 80px;
+}
+.posts-scroll-wrapper {
+    height:60vh;
+    overflow-y: auto;
+}
+html, body {
+    overflow: hidden;
+}
