@@ -165,3 +165,4 @@ _db.sqlite3
 storage/
 .DS_Store
 staticfiles/
+temp/
