@@ -1,5 +1,5 @@
 
-const sock = new WebSocket(`ws://${window.location.host}/ws/chat/uu/${u1}/${u2}/`);
+const sock = new WebSocket(`wss://${window.location.host}/ws/chat/uu/${u1}/${u2}/`);
 
 
 sock.onmessage = (e) => {

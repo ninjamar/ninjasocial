@@ -7,5 +7,6 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 apt update
 apt install -y redis
 
-redis-server --daemonize yes
-uvicorn --host localhost --port 8080 --workers 2 social.asgi:application
+redis-server --daemonize yes &
+echo "Starting server"
+uvicorn --host 0.0.0.0 --port 8080 --workers 2 social.asgi:application
