@@ -50,7 +50,7 @@ def logout(request):
     django_logout(request)
     domain = config("SOCIAL_AUTH_AUTH0_DOMAIN")
     client_id = config("SOCIAL_AUTH_AUTH0_KEY")
-    return_to = 'http://localhost:8000' # this can be current domain
+    return_to = 'https://social.ninjamar.dev/' # this can be current domain
     return redirect(f'https://{domain}/v2/logout?client_id={client_id}&returnTo={return_to}')
 
 @login_required
