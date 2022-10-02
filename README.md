@@ -1,7 +1,6 @@
 # NinjaSocial
 
 NinjaSocial is a social media application built using Django and Bulma\
-[Instance](https://social.ninjamar.dev)
 ## Running
 ### Install Dependencies
 ```bash
