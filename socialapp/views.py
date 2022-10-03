@@ -166,8 +166,8 @@ def profile(request, username):
         posts = None
     if len(posts) == 0:
         posts = None
-    if len(posts_likes) == 0:
-        posts_likes = None
+    if len(post_likes) == 0:
+        post_likes = None
     context = {"profile": user, "followers": followers, "following": following, "post_likes": post_likes, "posts": posts}
     return render(request, "socialapp/profile.html", context)
 
