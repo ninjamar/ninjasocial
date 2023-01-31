@@ -10,5 +10,4 @@ apt install -y redis
 redis-server --daemonize yes &
 
 pip3 install uvicorn[standard]
-python3 manage.py collectstatic
 uvicorn --host 0.0.0.0 --port 8080 --workers 2 social.asgi:application
