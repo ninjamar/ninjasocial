@@ -24,7 +24,7 @@
         <div class="message-area" id="message-area"></div>
     </div>
     <div class="box">
-        <input class="input is-fullwidth" type="text" id="room-new-message-input" placeholder="Type a message here">
+        <input class="input is-fullwidth" type="text" id="room-new-message-input" placeholder="Type a message here" onkeydown = "if (event.keyCode == 13) document.getElementById('room-new-message-submit').click()" >
         <button class="button is-fullwidth is-success" id="room-new-message-submit" onclick="handleNewMessageSubmit();">Submit</button>
     </div>
 </div>
