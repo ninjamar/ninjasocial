@@ -129,6 +129,10 @@ def inactive_user(request):
     if request.user.is_active:
         return redirect(request.META.get('HTTP_REFERER',"/"))
     return render(request, "socialapp/status/inactive.html")
+def verification(request):
+    if request.user.is_verified:
+        return redirect(request.META.get('HTTP_REFERER',"/"))
+    return render(request, "socialapp/status/verification.html")
 
 @login_required
 def like_post(request, post_id):
@@ -155,6 +159,7 @@ def profile(request, username):
     co_end_offset = co_start_offset + 10
 
     user = User.objects.get(username=username)
+    print(dir(user))
     followers = [i.who_follows for i in user.followers.all()]
     following = (i.to_follow for i in user.following.all())
     

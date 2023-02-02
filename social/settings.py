@@ -68,6 +68,8 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
     'profile',
     'email'
 ]
+AUTH0_TOKEN = config("AUTH0_TOKEN")
+AUTH0_BASE_API_URL = config("AUTH0_BASE_API_URL")
 
 AUTHENTICATION_BACKENDS = {
     'social_core.backends.auth0.Auth0OAuth2',
@@ -123,7 +125,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "socialapp.middleware.non_active_user_middleware.NonActiveUserMiddleware"
+    "socialapp.middleware.non_active_user_middleware.NonActiveUserMiddleware",
+    "socialapp.middleware.email_verification_middleware.EmailVerificationMiddleware"
 ]
 
 ROOT_URLCONF = 'social.urls'

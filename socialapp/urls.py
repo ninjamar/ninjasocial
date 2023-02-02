@@ -28,5 +28,6 @@ urlpatterns = [
     path("api/unfollow_user/<int:user_id>", views.unfollow_user, name="follow_user"),
     path("api/set_about", views.set_about, name="set_about"),
     path("api/nono/delete_account/", views.delete_account, name="delete_account"),
-    path("inactive-user/", views.inactive_user, name="inactive_user")
+    path("inactive-user/", views.inactive_user, name="inactive_user"),
+    path("verification/", views.verification, name="verification")
 ]

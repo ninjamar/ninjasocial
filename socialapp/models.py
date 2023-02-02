@@ -6,6 +6,7 @@ from django.conf import settings
 
 class User(AbstractUser):
     about = models.CharField(max_length=500, default="Lorem Ipsum")
+    is_verified = models.BooleanField(default=False)
 
 class UserFollowing(models.Model):
     to_follow = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="followers", on_delete=models.CASCADE)
