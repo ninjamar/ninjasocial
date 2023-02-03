@@ -4,6 +4,9 @@ from .models import User, Post, Report, Like, UserFollowing, UserToUserConnectio
 
 
 # we need to automate auth0 account deletion
+# make user verified action
+# automate actions
+# automate tokenization and renewal
 class MyUserAdmin(UserAdmin):
     actions = ['mydelete_model']
 

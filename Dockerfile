@@ -18,6 +18,8 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 RUN mkdir -p storage
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
 RUN python3 manage.py collectstatic --noinput
 
 
