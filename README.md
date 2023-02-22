@@ -1,6 +1,6 @@
 # NinjaSocial
 
-NinjaSocial is a social media application built using Django and Bulma\
+NinjaSocial is a social media application built using Django and Bulma
 ## Running
 ### Install Dependencies
 ```bash

@@ -11,7 +11,7 @@ def get_new_api_token():
     data = f"grant_type=client_credentials&client_id={id}&client_secret={secret}&audience={quote(base_api_url + '/api/v2/')}"
     headers = {'content-type': "application/x-www-form-urlencoded"}
     r = requests.post(f"{base_api_url}/oauth/token",data=data, headers=headers)
-    with open("cron_auth0_api_token", "w") as f:
+    with open("/app/storage/cron_auth0_api_token", "w") as f:
         f.write(r.json()["access_token"])
 if __name__ == "__main__":
     get_new_api_token()

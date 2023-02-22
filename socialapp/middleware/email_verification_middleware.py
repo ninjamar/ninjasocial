@@ -5,7 +5,7 @@ import os.path
 from socialapp.models import User
 import requests
 def get_token():
-    with open("/../../../cron_auth0_api_token", "r") as f:
+    with open("/app/storage/cron_auth0_api_token", "r") as f:
         return f.read()
 class EmailVerificationMiddleware:
     def __init__(self, get_response):
