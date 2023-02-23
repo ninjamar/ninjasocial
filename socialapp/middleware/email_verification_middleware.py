@@ -12,6 +12,7 @@ class EmailVerificationMiddleware:
         self.get_response = get_response
     
     def __call__(self, request):
+        """
         # should only users with an account be allowed to view site?
         if not request.user.is_anonymous and not request.user.is_staff:
             if not request.user.is_verified and request.path not in ["/verification/", "/logout/"]: #and (not request.user.is_anonymous): # and (request.path != "/verification/"
@@ -25,5 +26,6 @@ class EmailVerificationMiddleware:
                     user.save()
                 else:
                     return HttpResponseRedirect("/verification/")
+        """
         response = self.get_response(request)
         return response
