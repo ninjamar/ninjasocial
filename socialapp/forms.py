@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, TextInput
-from .models import Post, User
+from .models import Post, User, Reply
 
 class PostForm(ModelForm):
     class Meta:
@@ -16,7 +16,17 @@ class PostForm(ModelForm):
                 "placeholder":"Put an image url here"
             })
         }
-
+class ReplyForm(ModelForm):
+    class Meta:
+        model = Reply
+        fields = ["text"]
+        widgets = {
+            'text' : Textarea(attrs={
+                'class' : 'textarea',
+                'placeholder' : 'Reply here...',
+                'rows' : 1
+            })
+        }
 class SettingsAboutForm(ModelForm):
     class Meta:
         model = User

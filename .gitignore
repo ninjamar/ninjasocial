@@ -167,3 +167,4 @@ storage/
 staticfiles/
 temp/
 cron_auth0_api_token
+test.py

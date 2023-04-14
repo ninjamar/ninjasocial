@@ -31,6 +31,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text
+class Reply(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = "posts" , on_delete=models.CASCADE)
+    text = models.CharField(max_length=100)
+    date_posted = models.DateTimeField(auto_now_add=True)
+    hidden = models.BooleanField(default=False)
+    date_hidden = models.DateTimeField(blank=True, null=True)
+    hidden_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="hidden_by",on_delete=models.CASCADE, null=False)
+    reply_to = models.ForeignKey(Post, related_name="reply_to", on_delete=models.CASCADE, null=False)
 
 class Report(models.Model):
     reported_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

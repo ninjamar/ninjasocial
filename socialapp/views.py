@@ -6,9 +6,9 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from decouple import config # type: ignore
 
-from .models import Post, Report, User, Like, UserFollowing
+from .models import Post, Report, User, Like, UserFollowing, Reply
 
-from .forms import PostForm, SettingsAboutForm
+from .forms import PostForm, SettingsAboutForm, ReplyForm
 
 
 
@@ -43,7 +43,10 @@ def create_post(request):
             post.hidden_by = request.user
             post.save()
     return redirect(request.META.get('HTTP_REFERER',"/"))
-
+@login_required
+def reply_to_post(request):
+    if request.method == "POST":
+        pass
 
 @login_required
 def logout(request):
